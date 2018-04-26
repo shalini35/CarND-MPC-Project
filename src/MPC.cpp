@@ -20,7 +20,7 @@ double dt = 0.1;
 //
 // This is the length from front to CoG that has a similar radius.
 const double Lf = 2.67;
-double ref_v = 10;
+double ref_v = 40;
 
 size_t x_start = 0;
 size_t y_start = x_start + N;
