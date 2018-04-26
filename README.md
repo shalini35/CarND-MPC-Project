@@ -1,5 +1,43 @@
 # CarND-Controls-MPC
 Self-Driving Car Engineer Nanodegree Program
+## Goal
+ The goal of the project is to apply Model Predictive Control to properly steer and have desired acceleration for a simulated car in a virtual track.Here we mimimise the error and steer smoothly.
+
+## The Model
+The model is a simplified model implementing the Kinematic Model and doesnot take into account external forces like friction, gravity.
+* ### Update Equations:
+
+ State variables :
+ 
+ x_[t] = x[t-1] + v[t-1] * cos(psi[t-1]) * dt
+ 
+ y_[t] = y[t-1] + v[t-1] * sin(psi[t-1]) * dt
+ 
+ psi_[t] = psi[t-1] + v[t-1] / Lf * delta[t-1] * dt
+ 
+ v_[t] = v[t-1] + a[t-1] * dt
+ 
+ cte[t] = f(x[t-1]) - y[t-1] + v[t-1] * sin(epsi[t-1]) * dt
+ 
+ epsi[t] = psi[t] - psides[t-1] + v[t-1] * delta[t-1] / Lf * dt
+ 
+ Actuator values :
+ 
+ delta: Steering angle
+ 
+ a : throttle value
+
+* ### Timestep 
+
+The Prediction horizon 'T' should be high enough for the model to make accurate predictions. T is the product of timestep(dt) and Number of steps(N). As a rule of thumb, 'T' should be large enough and 'dt' should be small enough to make accurate calculations for small time step in which car should change the actuator values. The values for N and dt are 10 and 0.1 respectively.
+
+* ### Polynomial Fitting and MPC Preprocessing
+
+The waypoints provided to us are in Map Coordinates System. Inorder to simplify the process, they are converted to Car-Coordinate System. Prediction is made by fitting a third degree polynomial to the waypoints. Third degree polynomial can model both straight and curvy roads.
+
+* ### Latency
+
+In real life scenarios, there is a latency between the command issue and the execution.To incorporate the latency, I have introduced a delay of 100 ms and applied to the state update equations, before feeding it to the MPC::Solve function.
 
 ---
 
